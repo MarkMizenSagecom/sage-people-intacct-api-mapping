@@ -1,0 +1,26 @@
+@import (reference) '../../../../styles/variables.less';
+
+.amt-network-notice{
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #fff;
+  font-weight: 600;
+  text-transform: capitalize;
+  pointer-events: none;
+  transition: transform 0.2s;
+  transform: translateY(0);
+  font-size: unit(12 / @rem, rem);
+
+  &--online{
+    background: #00B000;
+    transform: translateY(101%);
+    transition: transform 0.2s 1s;
+  }
+  &--offline{
+    background: #C7384F;
+    transition: transform 0s;
+  }
+}

@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
       <amt-header></amt-header>
       <router-outlet></router-outlet>
       <amt-footer></amt-footer>
+      <amt-network-notice></amt-network-notice>
     </div>
   `,
   styleUrls: ['./app.component.less']

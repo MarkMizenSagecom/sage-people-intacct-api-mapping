@@ -1,0 +1,48 @@
+@import (reference) "./variables.less";
+
+:root{
+  font-size: 14px;
+  background: #f2f5f6;
+  box-sizing: border-box;
+}
+
+*, *::after, *::before{
+  box-sizing: inherit;
+}
+
+body{
+  line-height: 1.5;
+  color: var(--color-default);
+  font-family: var(--font-family--base);
+}
+
+h1, h2, h3, h4, h5, h6{
+  line-height: 1.25;
+  font-family: var(--font-family--sage-sans);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: (32rem / 14);
+}
+h2 {
+  font-size: (24rem / 14);
+}
+h3 {
+  font-size: (20rem / 14);
+}
+
+
+a{
+  color: var(--accent-color);
+
+  &:hover{
+    color: var(--accent-color--hover);
+  }
+
+  &:focus{
+    background-color: var(--focus-background);
+    color: var(--color-default);
+  }
+
+}

@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { ConnectionServiceModule, ConnectionService } from 'ng-connection-service';
+
 import { TextLogoComponent } from './components/text-logo/text-logo.component';
 import { GridComponent } from './components/grid/grid.component';
 
@@ -17,7 +19,11 @@ import { NetworkNoticeComponent } from './containers/network-notice/network-noti
     FooterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ConnectionServiceModule
+  ],
+  providers: [
+    ConnectionService
   ],
   exports: [
     NetworkNoticeComponent,

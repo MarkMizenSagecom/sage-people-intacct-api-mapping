@@ -15,12 +15,12 @@
   font-size: unit(12 / @rem, rem);
 
   &--online{
-    background: #00B000;
+    background: var(--color--success, #00B000);
     transform: translateY(101%);
     transition: transform 0.2s 1s;
   }
   &--offline{
-    background: #C7384F;
+    background: var(--color--failure, #C7384F);
     transition: transform 0s;
   }
 }

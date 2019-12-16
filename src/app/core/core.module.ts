@@ -9,6 +9,7 @@ import { GridComponent } from './components/grid/grid.component';
 import { FooterComponent } from './containers/footer/footer.component';
 import { HeaderComponent } from './containers/header/header.component';
 import { NetworkNoticeComponent } from './containers/network-notice/network-notice.component';
+import { APIPropertiesService } from './services/properties/properties.service';
 
 @NgModule({
   declarations: [
@@ -23,14 +24,16 @@ import { NetworkNoticeComponent } from './containers/network-notice/network-noti
     ConnectionServiceModule
   ],
   providers: [
-    ConnectionService
+    ConnectionService,
+    APIPropertiesService
   ],
   exports: [
     NetworkNoticeComponent,
     TextLogoComponent,
     GridComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    APIPropertiesService
   ]
 })
 export class CoreModule { }

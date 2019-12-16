@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'amt-footer',
   template: `
-    <div class="amt-footer">
+    <footer class="amt-footer">
       <amt-grid>
         <h2>FOOTER GOES HERE...</h2>
       </amt-grid>
-    </div>
+    </footer>
   `,
   styleUrls: ['./footer.component.less']
 })

@@ -1,0 +1,36 @@
+@import (reference) '../../../../../styles/variables.less';
+
+.amt-add-relationship{
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  height: unit(24 / @rem, rem);
+  width: unit(24 / @rem, rem);
+  background: #fff;
+  border: unit(2 / @rem, rem) solid var(--accent-color, #0073C2);
+  color: var(--accent-color, #0073C2);
+  cursor: pointer;
+  &::after, &::before{
+    content: '';
+    display: block;
+    width: 80%;
+    height: unit(2 / @rem, rem);
+    background: currentColor;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &::after{
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  &:hover{
+    background: var(--accent-color--hover, #0073C2);
+    color: #fff;
+  }
+  &:focus{
+    outline: var(--focus-outline);
+  }
+}

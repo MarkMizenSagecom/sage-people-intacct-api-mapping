@@ -5,7 +5,9 @@ import { Component } from '@angular/core';
   template: `
     <div class="amt-root">
       <amt-header></amt-header>
-      <router-outlet></router-outlet>
+      <main class="amt-root__main">
+        <router-outlet></router-outlet>
+      </main>
       <amt-footer></amt-footer>
       <amt-network-notice></amt-network-notice>
     </div>

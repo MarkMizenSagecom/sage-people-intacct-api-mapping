@@ -7,7 +7,7 @@ type networkStatus = "online" | "offline";
 @Component({
   selector: 'amt-network-notice',
   template: `
-    <div class="amt-network-notice" [ngClass]="cssClass">{{ networkStatus$ | async }}</div>
+    <aside class="amt-network-notice" [ngClass]="cssClass">{{ networkStatus$ | async }}</aside>
   `,
   styleUrls: ['./network-notice.component.less']
 })

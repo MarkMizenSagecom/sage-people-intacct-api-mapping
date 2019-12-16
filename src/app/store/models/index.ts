@@ -9,7 +9,8 @@ export interface ApiRelationships {
 
 export interface ApiProperty {
   name: string,
-  index: number
+  index: number,
+  type?: 'string' | 'number' | 'checkbox',
 }
 
 export interface ApiProperties {

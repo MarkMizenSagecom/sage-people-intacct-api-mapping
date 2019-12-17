@@ -1,12 +1,12 @@
 import * as fromActions from '../actions';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
-export const initialState: fromModels.ApiRelationships = null;
+export const initialState: fromModels.ApiRelationship[] = null;
 
-export function relationshipsReducers(state: fromModels.ApiRelationships = initialState, action: any): fromModels.ApiRelationships {
+export function relationshipsReducers(state: fromModels.ApiRelationship[] = initialState, action: any): fromModels.ApiRelationship[] {
   switch (action.type) {
     case fromActions.UPDATE_RELATIONSHIPS: {
-      const newState:fromModels.ApiRelationships = action.payload;
+      const newState:fromModels.ApiRelationship[] = action.payload;
       return {
         ...newState
       };

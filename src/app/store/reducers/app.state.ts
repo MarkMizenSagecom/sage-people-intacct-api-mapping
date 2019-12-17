@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { ActionReducer, ActionReducerMap, combineReducers, MetaReducer } from '@ngrx/store';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from 'src/environments/environment';
 
@@ -20,7 +20,7 @@ export interface AppState {
     loading: boolean,
     loaded: boolean,
   }
-  relationships: fromModels.ApiRelationships
+  relationships: fromModels.ApiRelationship[]
 };
 
 export const reducers = {

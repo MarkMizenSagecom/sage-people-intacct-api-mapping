@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
 export const GET_RELATIONSHIPS = '[Relationships] Get';
 export const UPDATE_RELATIONSHIPS = '[Relationships] Update';
@@ -13,7 +13,7 @@ export class GetRelationships implements Action {
 export class UpdateRelationships implements Action {
   readonly type = UPDATE_RELATIONSHIPS;
   constructor(
-    public payload: fromModels.ApiRelationships
+    public payload: fromModels.ApiRelationship[]
   ) { }
 }
 

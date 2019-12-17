@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
 export const GET_INTACCT_PROPERTIES = '[Intacct API] Get properties';
 export const GET_INTACCT_PROPERTIES_SUCCESS = '[Intacct API] Get properties Success';

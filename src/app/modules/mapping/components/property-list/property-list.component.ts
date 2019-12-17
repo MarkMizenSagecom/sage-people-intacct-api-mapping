@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import * as fromModels from '../../../../models';
+
 @Component({
   selector: 'amt-property-list',
   template: `
@@ -7,10 +9,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       <h2>{{ title }}</h2>
       <div class="amt-property-list__wrap" *ngIf="properties">
         <amt-property-list-item
-          *ngFor="let property of objectKeys(properties)"
-          [property]="properties[property]"
-          [showAdd]="lhs">
-        </amt-property-list-item>
+          *ngFor="let property of properties | keyvalue: orderByIndex; index as i"
+          (clicked)="clickedAction(property.key, $event)"
+          [property]="property.value"
+          [showRemove]="hasRelationships(property.key)"
+          [showAdd]="lhs"></amt-property-list-item>
       </div>
     </div>
   `,
@@ -26,5 +29,27 @@ export class PropertyListComponent {
 
   @Input() lhs: boolean = false;
 
-  @Output() add: EventEmitter<{event: any, index: number}> = new EventEmitter();
+  @Input() relationships: fromModels.ApiRelationship[];
+
+  @Output() clickedProperty: EventEmitter<[fromModels.ApiProperty, string]> = new EventEmitter();
+
+  orderByIndex(a:fromModels.ApiProperty, b:fromModels.ApiProperty) {
+    return a.index > b.index;
+  }
+
+  clickedAction(property: fromModels.ApiProperty, action = '') {
+    this.clickedProperty.emit([property, action])
+  }
+
+  hasRelationships(propertyID: string) {
+
+    if (this.lhs || !this.relationships) return false;
+
+    const matches = Object
+      .entries(this.relationships)
+      .filter((item)=> item[1].to === propertyID);
+
+    return matches.length > 0;
+  }
+
 }

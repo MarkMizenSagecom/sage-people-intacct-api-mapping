@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
 export const GET_SELECTED = '[Selected] Get';
 export const UPDATE_SELECTED = '[Selected] Update';

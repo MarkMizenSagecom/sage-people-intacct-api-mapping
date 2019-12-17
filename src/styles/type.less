@@ -16,39 +16,36 @@ body{
   font-family: var(--font-family--base);
 }
 
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6{
   line-height: 1.25;
   font-family: var(--font-family--sage-sans);
   font-weight: 600;
 }
 
-h1 {
+h1, .h1 {
   font-size: (32rem / 14);
   margin-top: unit(24 / @rem, rem);
   margin-bottom: unit(32 / @rem, rem);
 }
-h2 {
+h2, .h2 {
   font-size: (24rem / 14);
   margin-top: unit(16 / @rem, rem);
   margin-bottom: unit(24 / @rem, rem);
 }
-h3 {
+h3, .h3 {
   font-size: (20rem / 14);
   margin-top: unit(16 / @rem, rem);
   margin-bottom: unit(24 / @rem, rem);
 }
 
-
-a{
+a, .link{
   color: var(--accent-color);
-
   &:hover{
     color: var(--accent-color--hover);
   }
-
   &:focus{
     background-color: var(--focus-background);
     color: var(--color-default);
   }
-
 }

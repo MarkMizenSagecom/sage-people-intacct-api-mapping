@@ -1,5 +1,5 @@
 import * as fromActions from '../actions';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
 
 export interface PropertiesState {

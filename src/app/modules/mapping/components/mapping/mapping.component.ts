@@ -30,13 +30,13 @@ import { APIRelationshipsService } from 'src/app/services/relationships.service'
 
         <div class="amt-mapping__item">
           <amt-arrows
-          [newRelationship]="newRelationship"
-          [overallHeight]="listHeight"
-          [itemHeight]="itemHeight"
-          [relationships]="relationships"
-          [from]="sagePeopleFields$ | async"
-          [to]="sageIntacctFields$ | async"
-          (remove)="deleteRelationship($event)"
+            [newRelationship]="newRelationship"
+            [overallHeight]="listHeight"
+            [itemHeight]="itemHeight"
+            [relationships]="relationships"
+            [from]="sagePeopleFields$ | async"
+            [to]="sageIntacctFields$ | async"
+            (remove)="deleteRelationship($event)"
           ></amt-arrows>
         </div>
 
@@ -247,6 +247,10 @@ export class MappingComponent implements OnInit, OnDestroy {
   }
 
   addNewField(event: any){
+    console.log(event);
+  }
+
+  deleteRelationship(event:any){
     console.log(event);
   }
 

@@ -14,7 +14,6 @@ export class MappingHandler {
     let output: fromModels.MappingOutput = {};
 
     console.log(data);
-    debugger;
 
     data.relationships.forEach(relationship => {
 
@@ -65,7 +64,7 @@ export class MappingHandler {
 
   downloadJSON(data: fromModels.MappingDataComplete, fileName = 'mapping_file') {
     this.createJsonString(data).subscribe(json => {
-      const jsonEncoded = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(json));
+      const jsonEncoded = "data:text/json;charset=utf-8," + encodeURIComponent(json);
       const linkElement = document.createElement('a');
       linkElement.setAttribute("href", jsonEncoded);
       linkElement.setAttribute(

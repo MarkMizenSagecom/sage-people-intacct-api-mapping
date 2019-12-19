@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { MappingHandler } from 'src/app/services/mapping.service'
 import { SageIntacctApiSchema, SagePeopleApiSchema } from 'src/app/services/properties.service';
 import { PropertyListComponent } from '../property-list/property-list.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'amt-mapping',
@@ -15,7 +16,7 @@ import { PropertyListComponent } from '../property-list/property-list.component'
       <amt-grid>
         <div class="amt-mapping__top">
           <div class="amt-mapping__top-left">
-            <amt-editable-title [content]="fileTitle" titleChanged="fileTitle = $event"></amt-editable-title>
+            <amt-editable-title [content]="fileTitle" (titleChanged)="fileTitle = $event"></amt-editable-title>
           </div>
           <div class="amt-mapping__top-right">
             <button class="sds-button sds-button--small sds-button--icon" (click)="saveMappingData()">Save <amt-icon iconType="save" size="small"></amt-icon></button>
@@ -91,11 +92,14 @@ export class MappingComponent implements OnInit, OnDestroy {
     private sagePeopleService: SagePeopleApiSchema,
     private sageIntacctService: SageIntacctApiSchema,
     private mappingService: MappingHandler,
-    public element: ElementRef
+    public element: ElementRef,
+    public router: Router,
+    public route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     // TODO: get the current path and add logic for handling how to load in variables
+    // console.log(this.route, this.router);
 
     // Load data from services
     this.fromData$ = this.sagePeopleService.buildStructure();

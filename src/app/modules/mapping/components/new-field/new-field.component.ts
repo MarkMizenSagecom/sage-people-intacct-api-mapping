@@ -31,7 +31,7 @@ import * as fromModels from 'src/app/models';
 })
 export class NewFieldComponent {
 
-  @Output() createNew: EventEmitter<fromModels.ApiProperty> = new EventEmitter();
+  @Output() createNew: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('firstField', {static: false}) firstField;
 

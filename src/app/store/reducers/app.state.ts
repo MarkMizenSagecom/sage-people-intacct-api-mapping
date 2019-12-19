@@ -9,18 +9,18 @@ import * as fromRelationships from './relationships.reducer';
 import * as fromProperties from './properties.reducer';
 
 export interface AppState {
-  selectedProperty: fromModels.ApiProperty,
+  selectedProperty: any,
   people: {
-    data: fromModels.ApiProperties,
+    data: any,
     loading: boolean,
     loaded: boolean,
   },
   intacct: {
-    data: fromModels.ApiProperties,
+    data: any,
     loading: boolean,
     loaded: boolean,
   }
-  relationships: fromModels.ApiRelationship[]
+  relationships: any[]
 };
 
 export const reducers = {

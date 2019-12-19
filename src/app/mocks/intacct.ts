@@ -1,6 +1,6 @@
 import * as fromModels from '../models';
 
-const data: fromModels.ApiProperties = {
+const data: any = {
   'si__api__1': {
     id: 'si__api__1',
     name: 'Intacct API 1 Name',
@@ -44,7 +44,7 @@ const data: fromModels.ApiProperties = {
 }
 
 
-const data2: fromModels.ApiProperties = {
+const data2: any = {
   'group_1': {
     id: 'group_1',
     groupTitle: 'Contact',

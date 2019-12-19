@@ -13,7 +13,7 @@ export class GetSelected implements Action {
 export class UpdateSelected implements Action {
   readonly type = UPDATE_SELECTED;
   constructor(
-    public payload: fromModels.ApiRelationship
+    public payload: any
   ) { }
 }
 

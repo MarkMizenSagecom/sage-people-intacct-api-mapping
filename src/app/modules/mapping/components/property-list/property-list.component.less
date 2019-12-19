@@ -3,6 +3,26 @@
 .amt-property-list{
   margin-top: unit(16 / @rem, rem);
   &__wrap{
+    position: relative;
+    z-index: 2;
     padding-top: 1px;
+  }
+
+  &__labels{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    padding: 0 unit(24 / @rem, rem) unit(8 / @rem, rem);
+  }
+
+  &__heading{
+    font-size: unit(14 / @rem, rem);
+    letter-spacing: unit(0.5/@rem, rem);
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 0 unit(8 / @rem, rem) unit(4 / @rem, rem);
+  }
+  amt-property-list-item + &__heading{
+    padding-top: unit(16 / @rem, rem);
   }
 }

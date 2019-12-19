@@ -1,9 +1,9 @@
 import * as fromActions from '../actions';
 import * as fromModels from '../../models';
 
-export const initialState: fromModels.ApiRelationship = null;
+export const initialState: any = null;
 
-export function selectedReducers(state: fromModels.ApiRelationship = initialState, action: any): fromModels.ApiRelationship {
+export function selectedReducers(state: any = initialState, action: any): any {
   switch (action.type) {
     case fromActions.UPDATE_SELECTED: {
       return {

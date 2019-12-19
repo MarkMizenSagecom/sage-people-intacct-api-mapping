@@ -1,173 +1,201 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from 'rxjs';
-import { delay, filter } from 'rxjs/operators';
+import { delay, switchMap } from 'rxjs/operators';
 
 import * as fromModels from '../models';
 
-import peopleMock from '../mocks/people';
-import intacctMock from '../mocks/intacct';
+import {exampleIntacctRepsonse, examplePeopleRepsonse} from '../mocks/api_responses';
 
+abstract class ApiSchemaService{
 
-const examplePeople = {
-  "id": "a2G7E000000LlIDUA0",
-  "hrDepartment": "Finance",
-  "fullName": "Chuck Hamilton",
-  "firstName": "Charles",
-  "lastName": "Hamilton",
-  "emailAddress": "Charles.Hamilton@DemoCompany.com",
-  "currentEmployment": {
-    "startDate": "2018-01-02",
-    "name": "2019.02 #35",
-    "jobTitle": "Finance Assistant",
-    "endDate": "2018-01-01",
-    "active": true
-  },
-  "workAddress": {
-    "name": "Work location 44",
-    "line1": "Hoover Bldg",
-    "line2": "12 MainSt",
-    "line3": "Hampstead Heath",
-    "city": "Reading",
-    "region": "Berkshire",
-    "postalCode": "R11 2YY",
-    "country": "United Kingdom"
-  },
-  "additionalFields": [
-    {
-      "name": "Age",
-      "value": 24,
-      "source": "fHCM2__Age__c"
-    }
-  ]
-}
+  // The URI endpoint for recieving the schema
+  abstract schemaEndpoint: string;
 
-const data = {
-  "id": {
-    id: "fHCM2__Emplyee__c.id",
-    reference: "$.id",
-    name: "id",
-    type: "",
-    state: null,
-  },
-  "fHCM2__Age__c": {
-    id: "fHCM2__Age__c",
-    reference: "$.additionalFields[?(@.source=='NI_or_SS_Number__c')].value",
-    name: "Age",
-    type: "number",
-    state: null,
-  }
-}
+  // Returns the schema object
+  abstract getSchema(): Observable<any>;
 
-// Move to helpers
-const isObject = function(obj) {
-  var type = typeof obj;
-  return type === 'function' || type === 'object' && !!obj;
-};
+  // Gets the schema object then converts this to the mapping list data and categories
+  abstract buildStructure(): Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>;
 
-
-type additionalFields = {
-  name: string,
-  source: string,
-  value?: any,
+  // Converts the data from the schema to the structure
+  abstract convertData(input: any): Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>;
 }
 
 @Injectable()
-export class APIPropertiesService{
+export class SagePeopleApiSchema implements ApiSchemaService{
 
-  constructor(){}
+  schemaEndpoint = 'This will be changed to the backend...';
 
-  private _buildAdditionaFields(data: additionalFields[]): fromModels.ApiProperties{
-    let output: fromModels.ApiProperties = {};
-    data.forEach(item => {
-      const id = 'Additional_Field_'+ item.name
-      let type : 'string' | 'number';
-      switch (typeof item.value){
-        case "number":
-          type = "number";
-          break;
-        case "string":
-          type = "number";
-          break;
-      }
-      output[id] = {
-        id,
-        name: item.name,
-        index: null,
-        type,
-      }
-    });
-    return output;
-  };
-  private _buildFields(data, fields = {}, prefix = '$.'): fromModels.ApiProperties {
+  private _buildFields(
+    data: fromModels.SagePeopleApiSchemaData,
+    fields: fromModels.MappingListData = {},
+    categories: fromModels.MappingListCategories = {},
+    prefix = '$.',
+    order = 0,
+    category:string = null
+  ): [fromModels.MappingListData, fromModels.MappingListCategories] {
+
+    let newFields: fromModels.MappingListData = {};
+    let newCategories: fromModels.MappingListCategories = {};
+
     Object.keys(data).forEach(key => {
 
-      let newFields = {};
-
-      // Check exists
+      // Short circuit if issue with property
       if (!data.hasOwnProperty(key)){
-        console.log(`ISSUE WITH PROPERTY: ${key}`);
-        return null;
-      }
-
-      // get data
-      const item = data[key];
-
-      // Handle additional fields
-      if (key === "additionalFields") {
-        // Handle additional fields
-        newFields = this._buildAdditionaFields(item);
-        return {...fields, ...newFields};
-      }
-
-      // Check what type data is
-      if (typeof item === "string"){
-        newFields[key] = {
-          id: key,
-          name: key,
-          reference: prefix+key,
-          type: "string"
-        };
-      } else if (typeof item === "number"){
-        newFields[key] = {
-          id: key,
-          name: key,
-          reference: prefix+key,
-          type: "number"
-        };
-      } else if (isObject(item)){
-        newFields = {...this._buildFields(item, {}, prefix + key + '.')};
-      }
-
-      return fields = {
-        ...fields,
-        ...newFields
-      };
-    });
-
-    // Add initial order:
-    let index = 0;
-    Object.keys(fields).forEach(key => {
-      if (!fields.hasOwnProperty(key)){
         return;
       }
-      fields[key] = {
-        ...fields[key],
-        index: index++
-      };
+
+      // Get the item
+      const item: fromModels.SagePeopleApiItem | fromModels.SagePeopleApiItemObject | fromModels.SagePeopleApiItemArray = data[key];
+
+      // Check the item type
+      if (fromModels.SagePeopleApiItemTypeGuard(item)){
+        // Add single item
+        newFields[key] = {
+          label: item.label,
+          ref: prefix + key,
+          order: order++,
+          category: category,
+          type: (item.type as fromModels.MappingItemTypes) || null,
+          length: item.length || null,
+        };
+      } else if (fromModels.SagePeopleApiItemArrayTypeGuard(item)) {
+
+        // Add array of items (flattens them)
+        const data = (item as fromModels.SagePeopleApiItemArray).data;
+
+        // Adds category
+        categories[key] = {
+          label: key,
+          order: order++
+        };
+
+        data.forEach((arrayItem:fromModels.SagePeopleApiItemArrayItem)=>{
+          newFields[key + arrayItem.label] = {
+            label: arrayItem.label,
+            ref: `${prefix}${key}[?(@.source=='${arrayItem.source}')].value`,
+            order: order++,
+            type: (arrayItem.type as fromModels.MappingItemTypes) || null,
+            length: arrayItem.length || null,
+            category: key,
+          };
+        });
+
+      } else if (fromModels.SagePeopleApiItemObjectTypeGuard(item)) {
+
+        // Adds category
+        categories[key] = {
+          label: key,
+          order: order++
+        };
+
+        [newFields, newCategories] = this._buildFields(
+          (item as fromModels.SagePeopleApiItemObject).data,
+          newFields,
+          newCategories,
+          prefix + key + '.',
+          order,
+          key
+        );
+      }
+
     });
 
-    return fields;
+    return [
+      {...fields, ...newFields},
+      {...categories, ...newCategories}
+    ];
   }
 
-  getSagePeopleFields(id?: string): Observable<fromModels.ApiProperties>{
-    const fields = this._buildFields(examplePeople);
+  convertData(input: fromModels.SagePeopleApiSchema): Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>{
+    return of(this._buildFields(input.data));
+  };
 
-    console.log(fields);
-    return of(fields).pipe(delay(500));
+  getSchema():Observable<fromModels.SagePeopleApiSchema> {
+    return of(examplePeopleRepsonse);
   }
 
-  getSageIntacctFields(id?: string): Observable<fromModels.ApiProperties>{
-    return of(intacctMock).pipe(delay(500));
+  buildStructure(): Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>{
+    return this.getSchema().pipe(
+      switchMap(
+        (response:fromModels.SagePeopleApiSchema) => this.convertData(response)
+      ),
+      delay(500)
+    );
+  }
+}
+
+@Injectable()
+export class SageIntacctApiSchema implements ApiSchemaService{
+
+  schemaEndpoint = 'This will be changed to the backend...';
+
+  private _buildFields(
+    data: fromModels.SagePeopleApiSchemaData,
+    fields: fromModels.MappingListData = {},
+    categories: fromModels.MappingListCategories = {},
+    prefix:string = '',
+    order:number = 0,
+    category:string = null,
+  ): [fromModels.MappingListData, fromModels.MappingListCategories] {
+
+    let newFields: fromModels.MappingListData = {};
+    let newCategories: fromModels.MappingListCategories = {};
+
+    Object.keys(data).forEach((key)=>{
+      // Short circuit if issue with property
+      if (!data.hasOwnProperty(key)){
+        return;
+      }
+      // Get the item
+      const item: fromModels.SageIntactApiItem | fromModels.SageIntactApiItemGroup = data[key];
+      if (fromModels.SageIntactApiItemGroupTypeGuard(item)) {
+
+        newCategories[key] = {
+          label: key,
+          order: order++
+        };
+
+        [newFields, newCategories] = this._buildFields(
+          (item as fromModels.SageIntactApiItemGroup).data,
+          newFields,
+          newCategories,
+          prefix + key + '.',
+          order,
+          key,
+        );
+      } else {
+        // Add single item
+        newFields[key] = {
+          label: item.label,
+          ref: prefix + key,
+          order: order++,
+          type: (item.type as fromModels.MappingItemTypes) || null,
+          length: item.length || null,
+          category
+        };
+      }
+    });
+    return [
+      {...fields, ...newFields},
+      {...categories, ...newCategories}
+    ];
   }
 
+  convertData(input: fromModels.SageIntactApiSchema): Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>{
+    return of(this._buildFields(input.data));
+  };
+
+  getSchema():Observable<fromModels.SageIntactApiSchema> {
+    return of(exampleIntacctRepsonse);
+  }
+
+  buildStructure(): Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>{
+    return this.getSchema().pipe(
+      switchMap(
+        (response:fromModels.SageIntactApiSchema) => this.convertData(response)
+      ),
+      delay(500)
+    );
+  }
 }

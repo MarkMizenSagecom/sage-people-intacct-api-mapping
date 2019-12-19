@@ -1,6 +1,6 @@
 import * as fromModels from '../models';
 
-export const exampleIntacctleRepsonse: fromModels.SageIntactApiSchema = {
+export const exampleIntacctRepsonse: fromModels.SageIntactApiSchema = {
   version: '',
   date: '',
   data: {

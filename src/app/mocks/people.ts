@@ -1,6 +1,6 @@
 import * as fromModels from '../models';
 
-const data: fromModels.ApiProperties = {
+const data: any = {
   'sp__api__1': {
     id: 'sp__api__1',
     name: 'People API 1 Name',

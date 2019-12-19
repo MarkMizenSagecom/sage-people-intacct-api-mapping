@@ -3,7 +3,7 @@ import * as fromModels from '../../models';
 
 
 export interface PropertiesState {
-  data: fromModels.ApiProperties,
+  data: any,
   loading: boolean,
   error: string | null,
 }

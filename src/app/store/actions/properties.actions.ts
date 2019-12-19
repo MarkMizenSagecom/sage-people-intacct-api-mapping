@@ -13,7 +13,7 @@ export class GetIntacctProperties implements Action {
 export class GetIntacctPropertiesSuccess implements Action {
   readonly type = GET_INTACCT_PROPERTIES_SUCCESS;
   constructor(
-    public payload: fromModels.ApiProperties
+    public payload: any
   ) { }
 }
 
@@ -36,7 +36,7 @@ export class GetPeopleProperties implements Action {
 export class GetPeoplePropertiesSuccess implements Action {
   readonly type = GET_PEOPLE_PROPERTIES_SUCCESS;
   constructor(
-    public payload: fromModels.ApiProperties
+    public payload: any
   ) { }
 }
 

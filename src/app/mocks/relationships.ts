@@ -1,6 +1,6 @@
 import * as fromModels from '../models';
 
-const data: fromModels.ApiRelationship[] = [
+const data: any[] = [
   {
     from: 'sp__api__2',
     to: 'si__api__2'

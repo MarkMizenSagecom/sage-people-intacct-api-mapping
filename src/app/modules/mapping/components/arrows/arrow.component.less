@@ -1,16 +1,35 @@
 @import (reference) '../../../../../styles/variables.less';
 
 :host{
-  margin: 0 calc(var(--grid-gutter) * -1);
+  position: relative;
   display: block;
+  height: 100%;
 }
+
 .amt-arrow{
-  margin-top: unit(70 / @rem, rem);
   width: 100%;
   display: block;
+  &-wrap{
+    top: 0;
+    bottom: 0;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: calc(var(--grid-gutter) * -1);
+    right: calc(var(--grid-gutter) * -1);
+  }
 
   path{
-    cursor: pointer;
     stroke: var(--accent-color--hover-alt, black);
   }
+
+  &--highlighted path{
+    opacity: .3;
+  }
+
+  .g-relationship--highlighted path{
+    opacity: 1;
+    stroke: #00B000;
+  }
 }
+

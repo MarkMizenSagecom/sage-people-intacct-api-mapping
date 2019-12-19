@@ -1,17 +1,32 @@
 @import (reference) '../../../../../styles/variables.less';
 
+:host{
+  display: block;
+  height: unit( 42/@rem , rem);
+}
 .amt-property-list-item {
   margin-top: -1px;
   border: 2px solid #d9e0e4;
-  height: unit( 42/@rem , rem);
   position: relative;
   font-weight: 500;
+  height: unit( 42/@rem , rem);
   line-height: unit( 26 / @rem, rem);
   background: #fff;
   cursor: pointer;
 
   &__inner{
     padding: unit(8 / @rem, rem) unit(24 / @rem, rem);
+    border: none;
+    display: flex;
+    width: 100%;
+    font: inherit;
+    cursor: inherit;
+    background: transparent!important;
+    line-height: 1.5;
+    &:focus{
+      z-index: 4;
+      outline: var(--focus-outline);
+    }
   }
 
   &:hover{
@@ -37,9 +52,10 @@
 
 
   &__data-type{
+    font-weight: 400;
     font-style: italic;
     opacity: .95;
-    float: right;
+    margin-left: auto;
   }
 
   &--group{

@@ -1,81 +1,94 @@
-import { Component, Input, EventEmitter, Output, ViewChild, AfterViewInit, HostListener } from "@angular/core";
+import { Component, Input, ViewChild, AfterViewInit, HostListener, ElementRef, OnChanges } from "@angular/core";
 
 import * as fromModels from '../../../../models';
+import { elementOffset } from 'src/app/core/helpers/from-top';
 
 @Component({
   selector: 'amt-arrows',
   template: `
-  <div #svgWrap>
+  <div class="amt-arrow-wrap" #svgWrap>
     <svg
-      *ngIf="from && to"
+      *ngIf="relationships"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
       class="amt-arrow"
+      [ngClass]="{'amt-arrow--highlighted': highlightRelated}"
       [attr.viewbox]=" '0 0 ' + height + ' 100' "
       [attr.height]="height"
       width="100">
-      <!-- IF the new relationship, -->
-      <g *ngIf="newRelationship && newRelationship?.from && newRelationship?.to" class="g-relationship__new">
-        <!-- Add additional path here -->
-        <path [attr.d]="buildPath(width, newRelationship)" fill="transparent" stroke="black"></path>
-      </g>
-      <g class="g-relationships">
-        <!-- For each relationship, add a new one in here -->
-        <g *ngFor="let rel of relationships" class="g-relationship">
-          <path [attr.d]="buildPath(width, rel)" fill="transparent" stroke-width="2px" stroke="black"></path>
-        </g>
+      <g *ngFor="let rel of relationships" class="g-relationship" [ngClass]="{'g-relationship--highlighted': rel.highlight}">
+        <path
+          stroke="black"
+          [attr.d]="buildPath(top, width, rel)"
+          fill="transparent"
+          stroke-width="2px"
+        ></path>
       </g>
     </svg>
   </div>
   `,
   styleUrls: ['./arrow.component.less'],
 })
-export class ArrowsComponent implements AfterViewInit {
-  @Input() from: fromModels.ApiProperties;
+export class ArrowsComponent implements AfterViewInit, OnChanges {
 
-  @Input() to: fromModels.ApiProperties;
+  @Input() highlightRelated = false;
 
-  @Input() newRelationship: fromModels.ApiRelationship;
+  @Input() parentElement: ElementRef;
 
-  @Input() relationships: fromModels.ApiRelationship[];
-
-  @Input('overallHeight') height : number;
-
-  @Input() itemHeight : number;
-
-  @Output() remove: EventEmitter<number> = new EventEmitter();
+  @Input() relationships: fromModels.MappingRelationship;
 
   @ViewChild('svgWrap', {static: false}) wrapper;
 
+  height = 100;
   width = 100;
+  top = 0;
 
-  buildPath(width: number, relationship: fromModels.ApiRelationship): string {
+  private _init = false;
 
-    // Items:
-    const start = this.from[relationship.from].index;
-    const end = this.to[relationship.to].index;
+  buildPath(top: number, width: number, relationship: any): string {
 
-    // Start and end y
-    const startY = (start + .5) * (this.itemHeight - 1);
-    const endY = (end + .5) * (this.itemHeight - 1);
+    const startEle: HTMLElement = this.parentElement.nativeElement.querySelector(`amt-property-list-item[ng-reflect-id="${relationship.from}"]`);
+    const endEle: HTMLElement = this.parentElement.nativeElement.querySelector(`amt-property-list-item[ng-reflect-id="${relationship.to}"]`);
+
+    if (!startEle || !endEle) {
+      return '';
+    }
+
+    const startRect = elementOffset(startEle);
+    const startY = startRect.top + (startEle.offsetHeight / 2) - top;
+
+    const endRect = elementOffset(endEle);
+    const endY = endRect.top + (endEle.offsetHeight / 2) - top;
 
     return `M 0 ${startY}
-    C ${.4 * this.width} ${startY},
-      ${.6 * this.width} ${endY},
-      ${this.width} ${endY}`;
+      C ${.4 * width} ${startY},
+        ${.6 * width} ${endY},
+        ${width} ${endY}`;
   }
 
   @HostListener('window:resize', ['$event.target'])
   onResize() {
-    this._resizeVectors();
+    this._resize();
   }
 
   ngAfterViewInit(){
-    this._resizeVectors();
+    requestAnimationFrame(()=>{
+      this._init = true;
+    });
   }
 
-  private _resizeVectors(){
-    this.width = Math.ceil(this.wrapper.nativeElement.getBoundingClientRect().width);
+  ngOnChanges(){
+    this._resize();
+  }
+
+  private _resize(){
+    if (this._init){
+      const rect = this.wrapper.nativeElement.getBoundingClientRect();
+      this.width = Math.ceil(rect.width);
+      this.height = Math.ceil(rect.height);
+
+      this.top = Math.ceil(elementOffset(this.wrapper.nativeElement).top);
+    }
   }
 
 }

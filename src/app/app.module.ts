@@ -22,7 +22,7 @@ import { reducerToken, reducerProvider, metaReducers } from './store/reducers/ap
     AppRoutingModule,
     CoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    StoreModule.forRoot(reducerToken, { metaReducers }),
+    // StoreModule.forRoot(reducerToken, { metaReducers }),
     // EffectsModule.forRoot([fromEffects.ExchangeRatesEffects, fromEffects.PlanningEffects, fromEffects.TeamMemberPlanCommentsEffects]),
     ...modules,
   ],

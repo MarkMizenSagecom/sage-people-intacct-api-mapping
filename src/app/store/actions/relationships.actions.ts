@@ -13,7 +13,7 @@ export class GetRelationships implements Action {
 export class UpdateRelationships implements Action {
   readonly type = UPDATE_RELATIONSHIPS;
   constructor(
-    public payload: fromModels.ApiRelationship[]
+    public payload: any[]
   ) { }
 }
 

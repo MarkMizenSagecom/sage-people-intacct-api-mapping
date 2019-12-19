@@ -1,7 +1,5 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChildren, QueryList } from '@angular/core';
-
+import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import * as fromModels from 'src/app/models';
-import { PropertyListItemComponent } from '../property-list-item/property-list-item.component';
 
 @Component({
   selector: 'amt-property-list',
@@ -28,27 +26,20 @@ import { PropertyListItemComponent } from '../property-list-item/property-list-i
             {{ category.value.label }}
           </div>
 
-          <ng-container
-            *ngTemplateOutlet="categoryProperties;context:category.value"
-          ></ng-container>
+          <ng-container *ngFor="let property of properties | keyvalue: orderByOrder; index as i">
+            <ng-container *ngIf="property.value.category === category.key">
+              <amt-property-list-item
+                [key]="property.key"
+                (clicked)="clickedAction(property.key, $event)"
+                [property]="property.value"
+                [showRemove]="showRemoveButton(property.key)"
+                [showAdd]="lhs"></amt-property-list-item>
+            </ng-container>
+          </ng-container>
 
         </ng-container>
-
       </div>
     </div>
-
-    <ng-template #categoryProperties let-cat="label">
-      <ng-container *ngFor="let property of properties | keyvalue: orderByOrder; index as i">
-        <ng-container *ngIf="property.value.category === cat">
-          <amt-property-list-item
-            [key]="property.key"
-            (clicked)="clickedAction(property.key, $event)"
-            [property]="property.value"
-            [showRemove]="showRemoveButton(property.key)"
-            [showAdd]="lhs"></amt-property-list-item>
-        </ng-container>
-      </ng-container>
-    </ng-template>
   `,
   styleUrls: ['./property-list.component.less']
 })
@@ -56,9 +47,9 @@ export class PropertyListComponent {
 
   @Input() relationships: fromModels.MappingRelationship[];
 
-  @Input() properties: fromModels.MappingListData;
+  @Input() properties: fromModels.MappingListData = {};
 
-  @Input() categories: fromModels.MappingListCategories;
+  @Input() categories: fromModels.MappingListCategories = {};
 
   @Input() title:string;
 

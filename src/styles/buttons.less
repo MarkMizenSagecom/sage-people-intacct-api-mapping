@@ -1,0 +1,52 @@
+@import (reference) './variables.less';
+
+.sds-button{
+  --button-color: var(--accent-color);
+  padding: 0 unit(24 / @rem, rem);
+  line-height: unit(40 / @rem, rem);
+  font-weight: 600;
+  font-size: unit(14 / @rem, rem);
+  font-family: 'Open Sans';
+  text-decoration: none;
+  border: none;
+  color: var(--button-color);
+  border: unit(2 / @rem, rem) solid var(--button-color);
+  cursor: pointer;
+  background: #fff;
+
+  &:hover{
+    color: #fff;
+    background-color: var(--button-color);
+  }
+  &:focus{
+    outline: var(--focus-outline);
+  }
+
+  &--small{
+    line-height: unit(28/@rem, rem);
+    padding: 0 unit(16/@rem, rem);
+  }
+  &--destructive{
+    --button-color: #9f2d3f;
+  }
+  &--disabled,
+  &:disabled{
+    --button-color: #e6ebed;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  & + & {
+    margin-left: unit(16/@rem, rem);
+  }
+
+  &--icon{
+    padding-right: unit(32 / @rem, rem);
+    position: relative;
+    amt-icon{
+      position: absolute;
+      top: 0;
+      right: unit(4/@rem, rem);
+    }
+  }
+}

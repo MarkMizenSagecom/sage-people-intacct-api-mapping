@@ -14,10 +14,14 @@ import { PropertyListComponent } from '../property-list/property-list.component'
     <div class="amt-mapping" (click)="clearStates()">
       <amt-grid>
         <div class="amt-mapping__top">
-          <input class="sds_editable_title" type="text" value="Initial test..."/>
-          <amt-button (pressed)="saveMappingData()">Save</amt-button>
-          <amt-button (pressed)="exportMappingData()">Download</amt-button>
-          <amt-button (pressed)="clearRelationships()">Clear all</amt-button>
+          <div class="amt-mapping__top-left">
+            <amt-editable-title [content]="fileTitle" titleChanged="fileTitle = $event"></amt-editable-title>
+          </div>
+          <div class="amt-mapping__top-right">
+            <button class="sds-button sds-button--small sds-button--icon" (click)="saveMappingData()">Save <amt-icon iconType="save" size="small"></amt-icon></button>
+            <button class="sds-button sds-button--small sds-button--icon" (click)="exportMappingData()">Download <amt-icon iconType="download" size="small"></amt-icon></button>
+            <button class="sds-button sds-button--small sds-button--destructive" (click)="clearRelationships()">Clear all</button>
+          </div>
         </div>
         <div class="amt-mapping__item">
           <amt-property-list
@@ -46,9 +50,12 @@ import { PropertyListComponent } from '../property-list/property-list.component'
             title="Sage Intacct"
             (clickedProperty)="handleToPropertyClicked($event)"
           ></amt-property-list>
-
           <amt-new-field (createNew)="addNewField($event)"></amt-new-field>
-
+        </div>
+        <div class="amt-mapping__bottom">
+          <button class="sds-button sds-button--small sds-button--icon" (click)="saveMappingData()">Save <amt-icon iconType="save" size="small"></amt-icon></button>
+          <button class="sds-button sds-button--small sds-button--icon" (click)="exportMappingData()">Download <amt-icon iconType="download" size="small"></amt-icon></button>
+          <button class="sds-button sds-button--small sds-button--destructive" (click)="clearRelationships()">Clear all</button>
         </div>
       </amt-grid>
     </div>
@@ -77,6 +84,9 @@ export class MappingComponent implements OnInit, OnDestroy {
   // Whether to highlight values
   highlightRelated = false;
 
+  // The title of the file
+  fileTitle = 'Mapping File Title';
+
   constructor(
     private sagePeopleService: SagePeopleApiSchema,
     private sageIntacctService: SageIntacctApiSchema,
@@ -84,7 +94,9 @@ export class MappingComponent implements OnInit, OnDestroy {
     public element: ElementRef
   ) { }
 
-  ngOnInit(){
+  ngOnInit() {
+    // TODO: get the current path and add logic for handling how to load in variables
+
     // Load data from services
     this.fromData$ = this.sagePeopleService.buildStructure();
     this.toData$ = this.sageIntacctService.buildStructure();
@@ -289,7 +301,7 @@ export class MappingComponent implements OnInit, OnDestroy {
       from: this.fromProperties,
       to: this.toProperties,
       relationships: this.relationships
-    }, 'download.json');
+    }, this.fileTitle);
   }
 
   // Saves the mapping data to the backend

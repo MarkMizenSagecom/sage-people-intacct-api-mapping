@@ -59,12 +59,19 @@ export class MappingHandler {
     );
   }
 
-  downloadJSON(data: fromModels.MappingDataComplete, fileName = 'mapping.json') {
+  private _sanitizeFileName(inputString: string): string{
+    return inputString.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  }
+
+  downloadJSON(data: fromModels.MappingDataComplete, fileName = 'mapping_file') {
     this.createJsonString(data).subscribe(json => {
       const jsonEncoded = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(json));
       const linkElement = document.createElement('a');
       linkElement.setAttribute("href", jsonEncoded);
-      linkElement.setAttribute("download", fileName);
+      linkElement.setAttribute(
+        "download",
+        this._sanitizeFileName(fileName) + '.json'
+      );
       linkElement.click();
       linkElement.remove();
     });

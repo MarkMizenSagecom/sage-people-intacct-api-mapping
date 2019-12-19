@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
       <main class="amt-root__main">
         <router-outlet></router-outlet>
       </main>
-      <amt-footer></amt-footer>
       <amt-network-notice></amt-network-notice>
     </div>
   `,

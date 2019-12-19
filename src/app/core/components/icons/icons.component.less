@@ -1,0 +1,193 @@
+@import (reference) '../../../../styles/variables.less';
+
+.amt-icon{
+  display: inline-flex;
+  margin: 0;
+  width: 2rem;
+  height: 2rem;
+  justify-content: center;
+  align-items: center;
+  color: var(--icon-color, inherit);
+  &::before{
+    content: '';
+    vertical-align: middle;
+    font-family: var(--font--icons);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1;
+    color: inherit;
+  }
+
+  // Sizes
+  &--large{
+    width: 4rem;
+    height: 4rem;
+    &::before{
+      font-size: 2rem;
+    }
+  }
+
+  &--small{
+    width: 1.5rem;
+    height: 1.5rem;
+    &::before{
+      font-size: .875rem;
+    }
+  }
+
+  // Themes
+  &--theme-dark {
+    color: var(--color--light);
+    background-color: var(--color--default);
+  }
+  &--theme-light {
+    color: var(--color--default);
+    background-color: var(--color--light);
+  }
+
+  // Shapes
+  &--shape-circle{
+    border-radius: 50%;
+  }
+
+  // Icon types
+  &--feedback::before{ content: '\e930'; }
+  &--info::before{ content: '\e92a'; }
+  &--help::before{ content: '\e951'; }
+  &--settings::before{ content: '\e91a'; }
+  &--logout::before{ content: '\e92e'; }
+  &--pdf::before{ content: '\e91f'; }
+  &--csv::before{ content: '\e94a'; }
+  &--copy::before{ content: '\e91b'; }
+  &--error::before{ content: '\e923'; }
+  &--calendar::before{ content: '\e90e'; }
+  &--analysis::before{ content: '\e912'; }
+  &--people::before{ content: '\e93b'; }
+  &--dropdown::before{ content: '\e910'; }
+  &--alert::before{ content: '\e90b'; }
+  &--person::before{ content: '\e93c'; }
+  &--search::before{ content: '\e92f'; }
+  &--cross::before{ content: '\e91d'; }
+  &--close::before{ content: '\e91e'; }
+  &--delete::before{ content: '\e90c'; }
+  &--message::before{ content: '\e922'; }
+  &--email::before{ content: '\e922'; }
+  &--edit::before{ content: '\e93a'; }
+  &--print::before{ content: '\e942'; }
+  &--clock::before{ content: '\e919'; }
+  &--euro::before{ content: '€'; }
+  &--home::before{ content: '\e929'; }
+  &--cart::before{ content: '\e90a'; }
+  &--bulk_destroy::before{ content: '\e90c'; }
+  &--warning::before{ content: '\e924'; }
+  &--question::before{ content: '\e943'; }
+  &--question_hollow::before{ content: '\e95e'; }
+  &--tick::before{ content: '\e950'; }
+  &--none::before{ content: ''; }
+  &--add::before{ content: '\e940'; }
+  &--services::before{ content: '+'; }
+  &--collaborate::before{ content: '\e946'; }
+  &--graph::before{ content: '\e912'; }
+  &--plus::before{ content: '\e940'; }
+  &--true_tick::before{ content: '\e950'; }
+  &--arrow::before{ content: '\e904'; }
+  &--old_warning::before{ content: '\e924'; }
+  &--pound::before{ content: '£'; }
+  &--settings_old::before{ content: '\e91a'; }
+  &--go::before{ content: '\e903'; }
+  &--question_mark::before{ content: '\e943'; }
+  &--admin::before{ content: '\e94f'; }
+  &--contacts::before{ content: '\e93b'; }
+  &--create::before{ content: '\e940'; }
+  &--piggy_bank::before{ content: '\e926'; }
+  &--entry::before{ content: '\e92c'; }
+  &--edited::before{ content: '\e938'; }
+  &--refresh::before{ content: '\e945'; }
+  &--sync::before{ content: '\e944'; }
+  &--fax::before{ content: '\e925'; }
+  &--shop::before{ content: '\e947'; }
+  &--attach::before{ content: '\e937'; }
+  &--filter::before{ content: '\e928'; }
+  &--chat::before{ content: '\e914'; }
+  &--duplicate::before{ content: '\e921'; }
+  &--call::before{ content: '\e93d'; }
+  &--phone::before{ content: '\e93d'; }
+  &--favourite::before{ content: '\e94f'; }
+  &--favourite_lined::before{ content: '\e94e'; }
+  &--sort_up::before{ content: '\e949'; }
+  &--sort_down::before{ content: '\e948'; }
+  &--link::before{ content: '\e92d'; }
+  &--locked::before{ content: '\e935'; }
+  &--unlocked::before{ content: '\e936'; }
+  &--caret_down::before{ content: '\e910'; }
+  &--draft::before{ content: '\e939'; }
+  &--chart_line::before{ content: '\e912'; }
+  &--chart_bar::before{ content: '\e911'; }
+  &--chart_pie::before{ content: '\e913'; }
+  &--in_progress::before{ content: '\e920'; }
+  &--progressed::before{ content: '\e903'; }
+  &--save::before{ content: '\e926'; }
+  &--image::before{ content: '\e93e'; }
+  &--camera::before{ content: '\e90f'; }
+  &--arrow_up::before{ content: '\e907'; }
+  &--arrow_down::before{ content: '\e901'; }
+  &--arrow_left::before{ content: '\e902'; }
+  &--arrow_right::before{ content: '\e904'; }
+  &--chevron_up::before{ content: '\e918'; }
+  &--chevron_down::before{ content: '\e915'; }
+  &--chevron_left::before{ content: '\e916'; }
+  &--chevron_right::before{ content: '\e917'; }
+  &--download::before{ content: '\e900'; }
+  &--upload::before{ content: '\e906'; }
+  &--uploaded::before{ content: '\e905'; }
+  &--folder::before{ content: '\e927'; }
+  &--share::before{ content: '\e946'; }
+  &--gift::before{ content: '\e941'; }
+  &--mobile::before{ content: '\e932'; }
+  &--grid::before{ content: '\e952'; }
+  &--fit_height::before{ content: '\e909'; }
+  &--fit_width::before{ content: '\e908'; }
+  &--blocked::before{ content: '\e933'; }
+  &--blocked_square::before{ content: '\e934'; }
+  &--drag::before{ content: '\e94c'; }
+  &--drag_vertical::before{ content: '\e94d'; }
+  &--list_view::before{ content: '\e92c'; }
+  &--card_view::before{ content: '\e94b'; }
+  &--minus::before{ content: '\e931'; }
+  &--business::before{ content: '\e90d'; }
+  &--key::before{ content: '\e92b'; }
+  &--credit_card::before{ content: '\e91c'; }
+  &--marker::before{ content: '\e93f'; }
+  &--delivery::before{ content: '\e959'; }
+  &--filter_new::before{ content: '\e954'; }
+  &--view::before{ content: '\e957'; }
+  &--disputed::before{ content: '\e958'; }
+  &--connect::before{ content: '\e955'; }
+  &--chat_notes::before{ content: '\e956'; }
+  &--talk::before{ content: '\e95a'; }
+  &--split::before{ content: '\e952'; }
+  &--disconnect::before{ content: '\e953'; }
+  &--bullet_list::before{ content: '\e95b'; }
+  &--lightbulb_on::before{ content: '\e95d'; }
+  &--lightbulb_off::before{ content: '\e95c'; }
+  &--video::before{ content: '\e95e'; }
+  &--play::before{ content: '\e95f'; }
+  &--ellipsis_horizontal::before{ content: '\e960'; }
+  &--ellipsis_vertical::before{ content: '\e961'; }
+  &--in_transit::before{ content: '\e964'; }
+  &--arrow_left_small::before{ content: '\e963'; }
+  &--arrow_right_small::before{ content: '\e962'; }
+  &--progress::before{ content: '\e965'; }
+  &--bin::before{ content: '\e90c'; }
+  &--basket::before{ content: '\e90a'; }
+  &--credit_card_slash::before{ content: '\e966'; }
+  &--plus_large::before{ content: '\e967'; }
+  &--minus_large::before{ content: '\e968'; }
+  &--remove::before{ content: '\e931'; }
+  &--location::before{ content: '\e93f'; }
+  &--coins::before{ content: '\e96a'; }
+  &--individual::before{ content: '\e93c'; }
+  &--submitted::before{ content: '\e903'; }
+
+};

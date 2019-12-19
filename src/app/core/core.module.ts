@@ -10,6 +10,9 @@ import { FooterComponent } from './containers/footer/footer.component';
 import { HeaderComponent } from './containers/header/header.component';
 import { NetworkNoticeComponent } from './containers/network-notice/network-notice.component';
 import { ButtonComponent } from './components/button/button.component';
+import { EditableTitleComponent } from './components/editable-title/editable-title.component';
+import { FormsModule } from '@angular/forms';
+import { IconComponent } from './components/icons/icons.component';
 
 @NgModule({
   declarations: [
@@ -18,11 +21,14 @@ import { ButtonComponent } from './components/button/button.component';
     GridComponent,
     HeaderComponent,
     FooterComponent,
-    ButtonComponent
+    ButtonComponent,
+    EditableTitleComponent,
+    IconComponent,
   ],
   imports: [
     BrowserModule,
-    ConnectionServiceModule
+    FormsModule,
+    ConnectionServiceModule,
   ],
   providers: [
     ConnectionService,
@@ -34,6 +40,8 @@ import { ButtonComponent } from './components/button/button.component';
     HeaderComponent,
     FooterComponent,
     ButtonComponent,
+    EditableTitleComponent,
+    IconComponent,
   ]
 })
 export class CoreModule { }

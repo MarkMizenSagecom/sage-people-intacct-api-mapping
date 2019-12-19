@@ -29,7 +29,7 @@ import { PropertyListComponent } from '../property-list/property-list.component'
             [properties]="fromProperties"
             [categories]="fromCategories"
             [lhs]="true"
-            title="Sage People"
+            title="Sage People: Employment"
             (clickedProperty)="handleFromPropertyClicked($event)"
           ></amt-property-list>
         </div>
@@ -47,7 +47,7 @@ import { PropertyListComponent } from '../property-list/property-list.component'
             [relationships]="relationships"
             [properties]="toProperties"
             [categories]="toCategories"
-            title="Sage Intacct"
+            title="Sage Intacct: Employment"
             (clickedProperty)="handleToPropertyClicked($event)"
           ></amt-property-list>
           <amt-new-field (createNew)="addNewField($event)"></amt-new-field>
@@ -306,6 +306,18 @@ export class MappingComponent implements OnInit, OnDestroy {
 
   // Saves the mapping data to the backend
   saveMappingData() {
-    alert('save data');
+    console.log(JSON.stringify(
+      {
+        "mapping": this.relationships,
+        "from": {
+          "properties": this.fromProperties,
+          "categories": this.fromCategories
+        },
+        "to": {
+          "properties": this.toProperties,
+          "categories": this.toCategories
+        }
+      }
+    ));
   }
 }

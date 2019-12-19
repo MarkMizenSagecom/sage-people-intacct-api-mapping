@@ -1,0 +1,6 @@
+{
+  "/api/*": "/$1",
+  "/schemas/:api/": "/schemas/:api",
+  "/schemas/:api/:object": "/schemas/:api/:object",
+  "/mappingFiles/:id": "/mappingFiles?id=:id"
+}

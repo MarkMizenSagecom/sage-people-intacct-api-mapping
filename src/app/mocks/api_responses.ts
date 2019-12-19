@@ -155,6 +155,48 @@ export const examplePeopleRepsonse: fromModels.SagePeopleApiSchema = {
         }
       }
     },
+    "workAddress": {
+      label: "workAddress",
+      type: 'object',
+      length: 8,
+      data:{
+        "name": {
+          label: "name",
+          type: "string",
+          length: 255,
+        },
+        "line2": {
+          label: "line2",
+          type: "string",
+          length: 255,
+        },
+        "line3": {
+          label: "line3",
+          type: "string",
+          length: 255,
+        },
+        "city": {
+          label: "city",
+          type: "string",
+          length: 255,
+        },
+        "region": {
+          label: "region",
+          type: "string",
+          length: 255,
+        },
+        "postalCode": {
+          label: "postalCode",
+          type: "string",
+          length: 255,
+        },
+        "country": {
+          label: "country",
+          type: "string",
+          length: 255,
+        },
+      }
+    },
     "additionalFields": {
       label: 'additionalFields',
       type: 'array',
@@ -165,6 +207,18 @@ export const examplePeopleRepsonse: fromModels.SagePeopleApiSchema = {
           type: "number",
           length: 3,
           source: "fHCM2__Age__c"
+        },
+        {
+          label: "Extra field 1",
+          type: "number",
+          length: 3,
+          source: "fHCM2__Extra_1__c"
+        },
+        {
+          label: "Extra field 2",
+          type: "number",
+          length: 3,
+          source: "fHCM2__Extra_2__c"
         }
       ]
     }

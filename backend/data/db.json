@@ -1,0 +1,300 @@
+{
+  "schemas": [
+    {
+      "id": "sagePeopleEmployment",
+      "version": "",
+      "date": "",
+      "data": {
+        "id": {
+          "label": "id",
+          "type": "string",
+          "length": 18
+        },
+        "hrDepartment": {
+          "type": "string",
+          "label": "hrDepartment",
+          "length": 255
+        },
+        "fullName": {
+          "type": "string",
+          "label": "fullName",
+          "length": 255
+        },
+        "firstName": {
+          "type": "string",
+          "label": "firstName",
+          "length": 255
+        },
+        "lastName": {
+          "type": "string",
+          "label": "lastName",
+          "length": 255
+        },
+        "emailAddress": {
+          "type": "string",
+          "label": "emailAddress",
+          "length": 255
+        },
+        "currentEmployment": {
+          "label": "currentEmployment",
+          "type": "object",
+          "length": 5,
+          "data": {
+            "startDate": {
+              "label": "startDate",
+              "type": "date",
+              "length": 10
+            },
+            "name": {
+              "label": "name",
+              "type": "string",
+              "length": 10
+            },
+            "jobTitle": {
+              "label": "jobTitle",
+              "type": "string",
+              "length": 255
+            },
+            "endDate": {
+              "label": "endDate",
+              "type": "date",
+              "length": 10
+            },
+            "active": {
+              "label": "active",
+              "type": "boolean",
+              "length": 10
+            }
+          }
+        },
+        "workAddress": {
+          "label": "workAddress",
+          "type": "object",
+          "length": 8,
+          "data":{
+            "name": {
+              "label": "name",
+              "type": "string",
+              "length": 255
+            },
+            "line2": {
+              "label": "line2",
+              "type": "string",
+              "length": 255
+            },
+            "line3": {
+              "label": "line3",
+              "type": "string",
+              "length": 255
+            },
+            "city": {
+              "label": "city",
+              "type": "string",
+              "length": 255
+            },
+            "region": {
+              "label": "region",
+              "type": "string",
+              "length": 255
+            },
+            "postalCode": {
+              "label": "postalCode",
+              "type": "string",
+              "length": 255
+            },
+            "country": {
+              "label": "country",
+              "type": "string",
+              "length": 255
+            }
+          }
+        },
+        "additionalFields": {
+          "label": "additionalFields",
+          "type": "array",
+          "length": 1,
+          "data": [
+            {
+              "label": "Age",
+              "type": "number",
+              "length": 3,
+              "source": "fHCM2__Age__c"
+            },
+            {
+              "label": "Extra field 1",
+              "type": "number",
+              "length": 3,
+              "source": "fHCM2__Extra_1__c"
+            },
+            {
+              "label": "Extra field 2",
+              "type": "number",
+              "length": 3,
+              "source": "fHCM2__Extra_2__c"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sageIntactEmployment",
+      "data": {
+        "Contact": {
+          "label": "Contact",
+          "type": "object",
+          "length": 3,
+          "data":{
+            "PrintAs": {
+              "label": "PrintAs",
+              "type": "string",
+              "length": 255
+            },
+            "FirstName": {
+              "label": "FirstName",
+              "type": "string",
+              "length": 255
+            },
+            "LastName": {
+              "label": "LastName",
+              "type": "string",
+              "length": 255
+            }
+          }
+        },
+        "Employee":{
+          "type": "object",
+          "label": "Employee",
+          "length": 12,
+          "data": {
+            "LocationId": {
+              "label": "LocationId",
+              "type": "string",
+              "length": 25
+            },
+            "Ssn": {
+              "label": "Ssn",
+              "type": "string",
+              "length": 20
+            },
+            "StartDate": {
+              "label": "StartDate",
+              "type": "date"
+            },
+            "Title": {
+              "label": "Title",
+              "type": "string",
+              "length": 255
+            },
+            "EmployeeType": {
+              "label": "EmployeeType",
+              "type": "string",
+              "length": 20
+            },
+            "Gender": {
+              "label": "Gender",
+              "type": "string",
+              "length": 12
+            },
+            "BirthDate": {
+              "label": "BirthDate",
+              "type": "string"
+            },
+            "ManagerEmployeeId": {
+              "label": "ManagerEmployeeId",
+              "type": "string",
+              "length": 255
+            },
+            "AchEnabled": {
+              "label": "AchEnabled",
+              "type": "boolean"
+            },
+            "AchBankAccountNo": {
+              "label": "AchBankAccountNo",
+              "type": "string",
+              "length": 30
+            },
+            "AchBankRoutingNo": {
+              "label": "AchBankRoutingNo",
+              "type": "string",
+              "length": 30
+            }
+          }
+        }
+      }
+    }
+  ],
+  "mappingFiles": [
+    {
+      "id": "00001",
+      "name": "Example File",
+      "lastUpdated": 1576764887902,
+      "data":{
+        "output": "{\"Contact\":{\"PrintAs\":\"$.id\",\"FirstName\":\"$.id\",\"LastName\":\"$.currentEmployment.active\"},\"Employee\":{\"LocationId\":\"$.currentEmployment.startDate\",\"Ssn\":\"$.currentEmployment.startDate\",\"Title\":\"$.currentEmployment.endDate\",\"EmployeeType\":\"$.currentEmployment.endDate\",\"StartDate\":\"$.currentEmployment.active\",\"AchBankAccountNo\":\"$.fullName\",\"AchEnabled\":\"$.fullName\",\"Gender\":\"$.workAddress.name\",\"AchBankRoutingNo\":\"$.additionalFields[?(@.source=='fHCM2__Age__c')].value\",\"BirthDate\":\"$.additionalFields[?(@.source=='fHCM2__Extra_1__c')].value\"}}",
+        "mapping":[
+          {"from":"id","to":"PrintAs","highlight":false},
+          {"from":"id","to":"FirstName","highlight":false},
+          {"from":"startDate","to":"LocationId","highlight":false},
+          {"from":"startDate","to":"Ssn","highlight":false},
+          {"from":"endDate","to":"Title","highlight":false},
+          {"from":"endDate","to":"EmployeeType","highlight":false},
+          {"from":"active","to":"StartDate","highlight":false},
+          {"from":"active","to":"LastName","highlight":false},
+          {"from":"fullName","to":"AchBankAccountNo","highlight":false},
+          {"from":"fullName","to":"AchEnabled","highlight":false},
+          {"from":"name","to":"Gender","highlight":false},
+          {"from":"additionalFieldsAge","to":"AchBankRoutingNo","highlight":false},
+          {"from":"additionalFieldsExtra field 1","to":"BirthDate","highlight":false}
+        ],
+        "from":{
+          "properties":{
+            "id":{"label":"id","ref":"$.id","order":0,"category":null,"type":"string","length":18},
+            "hrDepartment":{"label":"hrDepartment","ref":"$.hrDepartment","order":1,"category":null,"type":"string","length":255},
+            "fullName":{"label":"fullName","ref":"$.fullName","order":2,"category":null,"type":"string","length":255},
+            "firstName":{"label":"firstName","ref":"$.firstName","order":3,"category":null,"type":"string","length":255},
+            "lastName":{"label":"lastName","ref":"$.lastName","order":4,"category":null,"type":"string","length":255},
+            "emailAddress":{"label":"emailAddress","ref":"$.emailAddress","order":5,"category":null,"type":"string","length":255},
+            "startDate":{"label":"startDate","ref":"$.currentEmployment.startDate","order":7,"category":"currentEmployment","type":"date","length":10},
+            "name":{"label":"name","ref":"$.workAddress.name","order":8,"category":"workAddress","type":"string","length":255},
+            "jobTitle":{"label":"jobTitle","ref":"$.currentEmployment.jobTitle","order":9,"category":"currentEmployment","type":"string","length":255},
+            "endDate":{"label":"endDate","ref":"$.currentEmployment.endDate","order":10,"category":"currentEmployment","type":"date","length":10},
+            "active":{"label":"active","ref":"$.currentEmployment.active","order":11,"category":"currentEmployment","type":"boolean","length":10},
+            "line2":{"label":"line2","ref":"$.workAddress.line2","order":9,"category":"workAddress","type":"string","length":255},
+            "line3":{"label":"line3","ref":"$.workAddress.line3","order":10,"category":"workAddress","type":"string","length":255},
+            "city":{"label":"city","ref":"$.workAddress.city","order":11,"category":"workAddress","type":"string","length":255},
+            "region":{"label":"region","ref":"$.workAddress.region","order":12,"category":"workAddress","type":"string","length":255},
+            "postalCode":{"label":"postalCode","ref":"$.workAddress.postalCode","order":13,"category":"workAddress","type":"string","length":255},
+            "country":{"label":"country","ref":"$.workAddress.country","order":14,"category":"workAddress","type":"string","length":255},
+            "additionalFieldsAge":{"label":"Age","ref":"$.additionalFields[?(@.source=='fHCM2__Age__c')].value","order":9,"type":"number","length":3,"category":"additionalFields"},
+            "additionalFieldsExtra field 1":{"label":"Extra field 1","ref":"$.additionalFields[?(@.source=='fHCM2__Extra_1__c')].value","order":10,"type":"number","length":3,"category":"additionalFields"},
+            "additionalFieldsExtra field 2":{"label":"Extra field 2","ref":"$.additionalFields[?(@.source=='fHCM2__Extra_2__c')].value","order":11,"type":"number","length":3,"category":"additionalFields"}
+          },
+          "categories":{
+            "currentEmployment":{"label":"currentEmployment","order":6},
+            "workAddress":{"label":"workAddress","order":7},
+            "additionalFields":{"label":"additionalFields","order":8}}
+        },
+        "to":{
+          "properties":{
+            "PrintAs":{"label":"PrintAs","ref":"Contact.PrintAs","order":1,"type":"string","length":255,"category":"Contact"},
+            "FirstName":{"label":"FirstName","ref":"Contact.FirstName","order":2,"type":"string","length":255,"category":"Contact"},
+            "LastName":{"label":"LastName","ref":"Contact.LastName","order":3,"type":"string","length":255,"category":"Contact"},
+            "LocationId":{"label":"LocationId","ref":"Employee.LocationId","order":2,"type":"string","length":25,"category":"Employee"},
+            "Ssn":{"label":"Ssn","ref":"Employee.Ssn","order":3,"type":"string","length":20,"category":"Employee"},
+            "StartDate":{"label":"StartDate","ref":"Employee.StartDate","order":4,"type":"date","length":null,"category":"Employee"},
+            "Title":{"label":"Title","ref":"Employee.Title","order":5,"type":"string","length":255,"category":"Employee"},
+            "EmployeeType":{"label":"EmployeeType","ref":"Employee.EmployeeType","order":6,"type":"string","length":20,"category":"Employee"},
+            "Gender":{"label":"Gender","ref":"Employee.Gender","order":7,"type":"string","length":12,"category":"Employee"},
+            "BirthDate":{"label":"BirthDate","ref":"Employee.BirthDate","order":8,"type":"string","length":null,"category":"Employee"},
+            "ManagerEmployeeId":{"label":"ManagerEmployeeId","ref":"Employee.ManagerEmployeeId","order":9,"type":"string","length":255,"category":"Employee"},
+            "AchEnabled":{"label":"AchEnabled","ref":"Employee.AchEnabled","order":10,"type":"boolean","length":null,"category":"Employee"},
+            "AchBankAccountNo":{"label":"AchBankAccountNo","ref":"Employee.AchBankAccountNo","order":11,"type":"string","length":30,"category":"Employee"},
+            "AchBankRoutingNo":{"label":"AchBankRoutingNo","ref":"Employee.AchBankRoutingNo","order":12,"type":"string","length":30,"category":"Employee"}},
+          "categories":{
+            "Contact":{"label":"Contact","order":0},
+            "Employee":{"label":"Employee","order":1}
+          }
+        }
+      }
+    }
+  ]
+}

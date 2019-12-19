@@ -99,22 +99,29 @@ export class MappingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // TODO: get the current path and add logic for handling how to load in variables
-    // console.log(this.route, this.router);
+    console.log(this.route, this.router);
 
-    // Load data from services
-    this.fromData$ = this.sagePeopleService.buildStructure();
-    this.toData$ = this.sageIntacctService.buildStructure();
+    if (this.router.url.includes('new')) {
+      // Load data from services
+      this.fromData$ = this.sagePeopleService.buildStructure();
+      this.toData$ = this.sageIntacctService.buildStructure();
 
-    // Subscribe
-    this.fromData$.subscribe(([properties, categories])=>{
-      this.fromProperties = properties;
-      this.fromCategories = categories;
-    });
+      // Subscribe
+      this.fromData$.subscribe(([properties, categories])=>{
+        this.fromProperties = properties;
+        this.fromCategories = categories;
+      });
 
-    this.toData$.subscribe(([properties, categories])=>{
-      this.toProperties = properties;
-      this.toCategories = categories;
-    });
+      this.toData$.subscribe(([properties, categories])=>{
+        this.toProperties = properties;
+        this.toCategories = categories;
+      });
+    } else {
+      this.route.paramMap.subscribe(map => {
+        const planID = map['params'].id;
+         console.log(planID);
+      });
+    }
   }
 
   // Handles clicking on 'from' properties

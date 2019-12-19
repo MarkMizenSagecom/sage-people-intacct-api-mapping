@@ -10,8 +10,6 @@ import { modules } from './modules';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { StoreModule } from '@ngrx/store';
-import { reducerToken, reducerProvider, metaReducers } from './store/reducers/app.state';
 
 @NgModule({
   declarations: [
@@ -22,13 +20,9 @@ import { reducerToken, reducerProvider, metaReducers } from './store/reducers/ap
     AppRoutingModule,
     CoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    // StoreModule.forRoot(reducerToken, { metaReducers }),
-    // EffectsModule.forRoot([fromEffects.ExchangeRatesEffects, fromEffects.PlanningEffects, fromEffects.TeamMemberPlanCommentsEffects]),
     ...modules,
   ],
-  providers: [
-    reducerProvider
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

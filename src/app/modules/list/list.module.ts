@@ -3,20 +3,24 @@ import { NgModule } from '@angular/core';
 
 // Custom modules
 import { CoreModule } from '../../core/core.module';
-import { IntroComponent } from './intro.component';
+import { ListComponent } from './components/list/list.component';
+import { TableComponent } from './components/table/table.component';
+import { RouterModule } from '@angular/router';
 
 // Module components
 @NgModule({
   declarations: [
-    IntroComponent
+    ListComponent,
+    TableComponent
   ],
   imports: [
+    RouterModule,
     CommonModule,
     CoreModule,
   ],
   exports: [
-    IntroComponent
+    ListComponent,
   ],
   providers: [],
 })
-export class IntroModule {}
+export class ListModule {}

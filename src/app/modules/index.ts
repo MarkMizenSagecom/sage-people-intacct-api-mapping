@@ -1,8 +1,8 @@
-import { IntroModule } from './intro/intro.module';
+import { ListModule } from './list/list.module';
 import { MappingModule } from './mapping/mapping.module';
 
 
 export const modules: any[] = [
-  IntroModule,
+  ListModule,
   MappingModule
 ];

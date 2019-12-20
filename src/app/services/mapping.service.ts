@@ -63,7 +63,8 @@ export class MappingHandler {
   }
 
   downloadJSON(data: fromModels.MappingDataComplete, fileName = 'mapping_file') {
-    this.createJsonString(data).subscribe(json => {
+    const data$ = typeof data === "string" ? of(data) : this.createJsonString(data);
+    data$.subscribe(json => {
       const jsonEncoded = "data:text/json;charset=utf-8," + encodeURIComponent(json);
       const linkElement = document.createElement('a');
       linkElement.setAttribute("href", jsonEncoded);

@@ -5,6 +5,7 @@ import { MappingHandler } from 'src/app/services/mapping.service'
 import { PropertyListComponent } from '../property-list/property-list.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'amt-mapping',
@@ -98,9 +99,10 @@ export class MappingComponent implements OnInit {
   constructor(
     private mappingService: MappingHandler,
     private storage: StorageService,
+    private location: Location,
+    private router: Router,
+    private route: ActivatedRoute,
     public element: ElementRef,
-    public router: Router,
-    public route: ActivatedRoute,
   ) { }
 
 
@@ -350,10 +352,9 @@ export class MappingComponent implements OnInit {
         },
         this._new,
         this.planId
-      ).subscribe((status)=>{
+      ).subscribe( _ => {
         this.saving = false;
-
-        console.log(status);
+        this.location.replaceState('/mapping/' + this.planId)
         saveDataSub.unsubscribe();
         createJsonSub.unsubscribe();
       });

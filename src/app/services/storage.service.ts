@@ -27,6 +27,10 @@ export class StorageService {
     return this.http.get(this.endpoints.mappingData) as Observable<fromModels.StorageDataFormat[]>;
   }
 
+  deleteMapping(id): Observable<any> {
+    return this.http.delete(this.endpoints.mappingData + '/' + id);
+  }
+
   saveData(data: fromModels.StorageDataFormat, newData:boolean, id?:string): Observable<fromModels.StorageDataFormat> {
     if(newData) {
       const url = this.endpoints.mappingData;

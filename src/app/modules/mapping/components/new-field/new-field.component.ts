@@ -23,7 +23,7 @@ import * as fromModels from 'src/app/models';
         <button (click)="cancel()">Cancel</button>
       </form>
       <ng-template #addNew>
-        <button (click)="clickedAddNew()">Add New +</button>
+        <button class="amt-new-field__button" (click)="clickedAddNew()"><amt-icon size="small" iconType="plus"></amt-icon>Add New</button>
       </ng-template>
     </div>
   `,

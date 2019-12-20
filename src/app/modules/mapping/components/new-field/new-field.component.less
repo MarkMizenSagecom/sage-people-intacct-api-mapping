@@ -1,0 +1,25 @@
+@import (reference) '../../../../../styles/variables.less';
+
+.amt-new-field {
+
+  &__button{
+    height: unit(42 / @rem, rem);
+    margin-bottom: unit(12 / @rem, rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 2px dashed #d9e0e4;
+    background: #fff;
+    font-weight: 600;
+    color: var(--accent-color);
+    width: 100%;
+    display: block;
+    &:focus, &:hover {
+      color: var(--accent-color);
+      cursor: pointer;
+      border-color: currentColor;
+    }
+  }
+
+}

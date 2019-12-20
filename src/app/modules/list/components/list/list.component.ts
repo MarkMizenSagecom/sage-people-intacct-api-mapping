@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { StorageService } from 'src/app/services/storage.service';
 import { Observable, Subscription } from 'rxjs';
 import * as fromModels from 'src/app/models';
+import { MappingHandler } from 'src/app/services/mapping.service';
+import { Router } from '@angular/router';
+import { unfocus } from 'src/app/core/helpers/unfocus';
 
 @Component({
   selector: 'amt-intro',
@@ -31,18 +34,33 @@ import * as fromModels from 'src/app/models';
 export class ListComponent implements OnInit, OnDestroy {
 
   constructor(
-    private storageService: StorageService
+    private storageService: StorageService,
+    private mappingService: MappingHandler,
+    private router: Router
   ) {}
 
   loading = true;
   tableData$: Observable<fromModels.StorageDataFormat[]>;
   sub: Subscription;
+  downloadData = {};
 
   ngOnInit(): void {
+    this.sub = this._loadData();
+  }
+
+  _loadData() {
     this.tableData$ = this.storageService.getAllMappingFiles();
-    this.sub = this.tableData$.subscribe( _ => {
+    return this.tableData$.subscribe(tableData => {
+      const newDownloadData = {};
+      tableData.forEach((item:fromModels.StorageDataFormat) => {
+        newDownloadData[item.id] = {
+          name: item.name,
+          data: item.data.output,
+        }
+      });
+      this.downloadData = newDownloadData;
       this.loading = false;
-    });
+    })
   }
 
   ngOnDestroy(): void {
@@ -50,6 +68,21 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   handleAction([id, action]){
-    console.log(id, action);
+    switch(action){
+      case "edit":
+        this.router.navigateByUrl(`/mapping/${id}`);
+        break;
+      case "download":
+        const downloadInfo = this.downloadData[id];
+        this.mappingService.downloadJSON(downloadInfo.data, downloadInfo.name);
+        break;
+      case "delete":
+        this.storageService.deleteMapping(id).subscribe( _ => { this._loadData() } );
+        break;
+      default:
+        console.log('NO ACTION PROVIDED');
+        break;
+    }
+    unfocus();
   }
 }

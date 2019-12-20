@@ -13,6 +13,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { EditableTitleComponent } from './components/editable-title/editable-title.component';
 import { FormsModule } from '@angular/forms';
 import { IconComponent } from './components/icons/icons.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { IconComponent } from './components/icons/icons.component';
     ButtonComponent,
     EditableTitleComponent,
     IconComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,7 @@ import { IconComponent } from './components/icons/icons.component';
     ButtonComponent,
     EditableTitleComponent,
     IconComponent,
+    LoadingComponent,
   ]
 })
 export class CoreModule { }

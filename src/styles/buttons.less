@@ -10,9 +10,9 @@
   text-decoration: none;
   border: none;
   color: var(--button-color);
+  background: #fff;
   border: unit(2 / @rem, rem) solid var(--button-color);
   cursor: pointer;
-  background: #fff;
 
   &:hover{
     color: #fff;
@@ -48,5 +48,50 @@
       top: 0;
       right: unit(4/@rem, rem);
     }
+  }
+}
+
+
+.amt-actions{
+  position: relative;
+  display: table;
+
+  .sds-button{
+    display: block;
+  }
+
+  &__dropdown{
+    min-width: calc(100% + 8px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    z-index: 2;
+    .sds-button{
+      margin: 0;
+      background: var(--button-color);
+      color: #fff;
+      &:hover{
+        --button-color: darken(#0073C2, 15%);
+      }
+      &--destructive:hover{
+        --button-color: darken(#9f2d3f, 15%);
+      }
+    }
+  }
+
+  &:focus-within > .sds-button,
+  &:hover > .sds-button{
+    background-color: var(--button-color);
+    color: #fff;
+  }
+
+  &:focus-within &__dropdown,
+  &:hover &__dropdown{
+    display: flex;
   }
 }

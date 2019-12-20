@@ -12,6 +12,8 @@ import { AddRelationshipComponent, RemoveRelationshipComponent } from './compone
 import { SageIntacctApiSchemaService, SagePeopleApiSchemaService } from 'src/app/services/properties.service';
 import { MappingHandler } from 'src/app/services/mapping.service'
 import { NewFieldComponent } from './components/new-field/new-field.component';
+import { StorageService } from 'src/app/services/storage.service';
+import { IdService } from 'src/app/services/id.service';
 
 // Module components
 @NgModule({
@@ -30,6 +32,8 @@ import { NewFieldComponent } from './components/new-field/new-field.component';
     FormsModule
   ],
   providers: [
+    IdService,
+    StorageService,
     SageIntacctApiSchemaService,
     SagePeopleApiSchemaService,
     MappingHandler

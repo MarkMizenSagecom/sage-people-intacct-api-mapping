@@ -6,12 +6,14 @@ import { CoreModule } from '../../core/core.module';
 import { ListComponent } from './components/list/list.component';
 import { TableComponent } from './components/table/table.component';
 import { RouterModule } from '@angular/router';
+import { ActionsComponent } from './components/actions/actions.component';
 
 // Module components
 @NgModule({
   declarations: [
     ListComponent,
-    TableComponent
+    TableComponent,
+    ActionsComponent,
   ],
   imports: [
     RouterModule,

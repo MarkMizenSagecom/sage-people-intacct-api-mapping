@@ -1,49 +1,47 @@
-import { Component } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import * as fromModels from 'src/app/models';
 
 @Component({
   selector: 'amt-table',
   template: `
   <div class="amt-table">
-    <table *ngIf="mappingFiles?.length > 0 else tableLoading">
-      <caption>Existing Mapping data</caption>
+    <table>
+      <caption class="h3">Exported Mapping Data</caption>
       <thead>
         <tr>
-          <td></td>
-          <th>Mapping file</th>
+          <th class="name">Mapping file</th>
           <th>Last Edited</th>
-          <th>Actions</th>
+          <td></td>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let file of mappingFiles" [id]="'amt-list__file--'+file.id">
-          <td></td>
-          <td>
-            <a routerLink="/mapping/new">
+          <td class="name">
+            <a routerLink="/mapping/{{ file.id }}">
               {{ file.name }}
             </a>
           </td>
-          <td>{{ file.lastEdited | date }}</td>
+          <td>{{ file.lastUpdated | date }}</td>
           <td>
-            <button class="sds-button sds-button--icon sds-button--small">Actions <amt-icon iconType="chevron_down"></amt-icon></button>
+            <amt-actions label="Actions">
+              <button (click)="handleAction(file.id, 'edit')" class="sds-button sds-button--small">Edit</button>
+              <button (click)="handleAction(file.id, 'download')" class="sds-button sds-button--small">Download</button>
+              <button (click)="handleAction(file.id, 'delete')" class="sds-button sds-button--small sds-button--destructive">Delete</button>
+            </amt-actions>
           </td>
         </tr>
       </tbody>
     </table>
-
-    <ng-template #tableLoading>
-      Loading
-    </ng-template>
-
   </div>`,
   styleUrls: ['./table.component.less']
 })
 export class TableComponent {
-  mappingFiles: any[] = [
-    {
-      name: 'Example Mapping File',
-      lastEdited: 1576758581371,
-      id: 'someIdString'
-    }
-  ];
 
+  @Input() mappingFiles: fromModels.StorageDataFormat[] = [];
+
+  @Output() action: EventEmitter<[string, string]> = new EventEmitter();
+
+  handleAction(id:string, action:string):void {
+    this.action.emit([id, action]);
+  }
 }

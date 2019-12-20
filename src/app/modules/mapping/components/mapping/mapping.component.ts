@@ -1,11 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
-
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
 import * as fromModels from 'src/app/models';
-
 import { Observable } from 'rxjs';
-
 import { MappingHandler } from 'src/app/services/mapping.service'
-import { SageIntacctApiSchemaService, SagePeopleApiSchemaService } from 'src/app/services/properties.service';
 import { PropertyListComponent } from '../property-list/property-list.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
@@ -14,7 +10,7 @@ import { StorageService } from 'src/app/services/storage.service';
   selector: 'amt-mapping',
   template: `
     <div class="amt-mapping" (click)="clearStates()">
-      <amt-grid>
+      <amt-grid *ngIf="!loading else loadingTemplate">
         <div class="amt-mapping__top">
           <div class="amt-mapping__top-left">
             <amt-editable-title [content]="fileTitle" (titleChanged)="fileTitle = $event"></amt-editable-title>
@@ -41,7 +37,7 @@ import { StorageService } from 'src/app/services/storage.service';
             [highlightRelated]="highlightRelated"
             [relationships]="relationships"
             [parentElement]="element"
-        ></amt-arrows>
+          ></amt-arrows>
         </div>
 
         <div class="amt-mapping__item">
@@ -60,6 +56,11 @@ import { StorageService } from 'src/app/services/storage.service';
           <button class="sds-button sds-button--small sds-button--destructive" (click)="clearRelationships()">Clear all</button>
         </div>
       </amt-grid>
+
+      <ng-template #loadingTemplate>
+        <amt-loading></amt-loading>
+      </ng-template>
+
     </div>
   `,
   styleUrls: ['./mapping.component.less']
@@ -85,13 +86,14 @@ export class MappingComponent implements OnInit {
   highlightRelated = false;
 
   // The title of the file
-  fileTitle = 'Mapping File Title';
+  fileTitle = '';
 
   data$: Observable<fromModels.StorageDataFormat>;
   planId: string;
 
-  loading = false;
+  loading = true;
   saving = false;
+  private _new = false;
 
   constructor(
     private mappingService: MappingHandler,
@@ -106,12 +108,10 @@ export class MappingComponent implements OnInit {
 
     // TODO: get the current path and add logic for handling how to load in variables
     if (this.router.url.includes('new')) {
+      this._new = true;
       this.data$ = this.storage.loadDefaultData();
     } else {
-      this.data$ = this.route.paramMap.pipe((map) => {
-        const planID = map['params'].id;
-        return this.storage.loadData(planID);
-      });
+      this.data$ = this.storage.loadData(this.route.snapshot.paramMap.get('id'));
     }
 
     const subscription = this.data$.subscribe(initialState => {
@@ -126,7 +126,9 @@ export class MappingComponent implements OnInit {
 
       this.relationships = initialState.data.mapping;
 
-      this.loading = false;
+      requestAnimationFrame(()=>{
+        this.loading = false;
+      });
 
       // Only subscribe once
       subscription.unsubscribe();
@@ -329,10 +331,10 @@ export class MappingComponent implements OnInit {
       relationships: this.relationships
     }).subscribe((output:string)=>{
       const saveDataSub = this.storage.saveData(
-        this.planId,
         {
           name: this.fileTitle,
           id: this.planId,
+          lastUpdated: Date.now(),
           data:{
             from: {
               properties: this.fromProperties,
@@ -345,7 +347,9 @@ export class MappingComponent implements OnInit {
             mapping: this.relationships,
             output
           }
-        }
+        },
+        this._new,
+        this.planId
       ).subscribe((status)=>{
         this.saving = false;
 

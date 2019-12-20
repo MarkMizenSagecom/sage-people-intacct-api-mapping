@@ -1,0 +1,42 @@
+@import (reference) '../../../../styles/variables.less';
+
+@keyframes bouncedelay{
+  0%,
+  80%,
+  100% {
+      opacity:0;
+      transform:scale(0)
+  }
+  40% {
+      opacity:1;
+      transform:scale(1)
+  }
+}
+
+.amt-loading{
+  cursor: progress;
+  &__pips{
+    margin: auto;
+    height: 300px;
+    max-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__pip{
+    animation: bouncedelay 1.2s infinite ease-in-out both;
+    background-color: var(--accent-color, #0073c2);
+    height: unit(16 / @rem, rem);
+    margin: 0 unit(5 / @rem, rem);
+    width: unit(16 / @rem, rem);
+    &--1{
+      animation-delay: 0s;
+    }
+    &--2{
+      animation-delay: .2s;
+    }
+    &--3{
+      animation-delay: .4s;
+    }
+  }
+}

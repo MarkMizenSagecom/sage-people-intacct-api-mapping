@@ -1,9 +1,33 @@
+@import (reference) '../../../../../styles/variables.less';
+
 .amt-list{
   &__top{
     grid-column: ~"3 / 11";
   }
   &__data{
     grid-row: 2;
-    grid-column: ~"3 / 11";
+    grid-column: ~"1 / 13";
+  }
+}
+
+.amt-list__new {
+  height: unit(42 / @rem, rem);
+  margin-bottom: unit(12 / @rem, rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 2px dashed #d9e0e4;
+  background: #fff;
+  font-weight: 600;
+
+  &:focus, &:hover {
+    color: var(--accent-color);
+    cursor: pointer;
+    border-color: currentColor;
+  }
+  s
+  &__text {
+    text-align: center;
   }
 }

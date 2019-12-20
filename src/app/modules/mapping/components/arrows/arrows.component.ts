@@ -8,7 +8,7 @@ import { elementOffset } from 'src/app/core/helpers/from-top';
   template: `
   <div class="amt-arrow-wrap" #svgWrap>
     <svg
-      *ngIf="relationships"
+      *ngIf="relationships && init"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
       class="amt-arrow"
@@ -42,8 +42,7 @@ export class ArrowsComponent implements AfterViewInit, OnChanges {
   height = 100;
   width = 100;
   top = 0;
-
-  private _init = false;
+  init = false;
 
   buildPath(top: number, width: number, relationship: any): string {
 
@@ -73,7 +72,10 @@ export class ArrowsComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(){
     requestAnimationFrame(()=>{
-      this._init = true;
+      this.init = true;
+      requestAnimationFrame(()=>{
+        this._resize();
+      });
     });
   }
 
@@ -82,7 +84,7 @@ export class ArrowsComponent implements AfterViewInit, OnChanges {
   }
 
   private _resize(){
-    if (this._init){
+    if (this.init){
       const rect = this.wrapper.nativeElement.getBoundingClientRect();
       this.width = Math.ceil(rect.width);
       this.height = Math.ceil(rect.height);

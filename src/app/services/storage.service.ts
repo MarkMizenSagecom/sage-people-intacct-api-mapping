@@ -23,14 +23,23 @@ export class StorageService {
     private idService: IdService
   ) { }
 
-  saveData(id:string, data): Observable<any> {
-    const url = this.endpoints.mappingData + '/' + id;
-    return this.http.put(url, data);
+  getAllMappingFiles():Observable<fromModels.StorageDataFormat[]>{
+    return this.http.get(this.endpoints.mappingData) as Observable<fromModels.StorageDataFormat[]>;
   }
 
-  loadData(id:string): Observable<any> {
+  saveData(data: fromModels.StorageDataFormat, newData:boolean, id?:string): Observable<fromModels.StorageDataFormat> {
+    if(newData) {
+      const url = this.endpoints.mappingData;
+      return this.http.post(url, data) as Observable<fromModels.StorageDataFormat>;
+    } else {
+      const url = this.endpoints.mappingData + '/' + id;
+      return this.http.put(url, data) as Observable<fromModels.StorageDataFormat>;
+    }
+  }
+
+  loadData(id:string): Observable<fromModels.StorageDataFormat> {
     const url = this.endpoints.mappingData + '/' + id;
-    return this.http.get(url);
+    return this.http.get(url) as Observable<fromModels.StorageDataFormat>;
   }
 
   loadDefaultData(): Observable<fromModels.StorageDataFormat>{
@@ -41,7 +50,7 @@ export class StorageService {
       switchMap((data) => {
         const [from, to] = data;
         return of({
-          name:'',
+          name: 'New mapping file',
           id: this.idService.getId(),
           data:{
             from: {

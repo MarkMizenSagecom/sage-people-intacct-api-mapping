@@ -22,7 +22,7 @@ abstract class ApiSchemaService{
 }
 
 @Injectable()
-export class SagePeopleApiSchema implements ApiSchemaService{
+export class SagePeopleApiSchemaService implements ApiSchemaService{
 
   schemaEndpoint = 'This will be changed to the backend...';
 
@@ -126,7 +126,7 @@ export class SagePeopleApiSchema implements ApiSchemaService{
 }
 
 @Injectable()
-export class SageIntacctApiSchema implements ApiSchemaService{
+export class SageIntacctApiSchemaService implements ApiSchemaService{
 
   schemaEndpoint = 'This will be changed to the backend...';
 

@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  endpoints: {
+    mappingData: 'http://localhost:3000/api/mappingFiles',
+    sagePeopleEmployment: 'http://localhost:3000/api/schemas/sagePeople/Employment',
+    sageIntacctEmployment: 'http://localhost:3000/api/schemas/sageIntacct/Employment',
+  }
 };
 
 /*

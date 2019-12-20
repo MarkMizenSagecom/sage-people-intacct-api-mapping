@@ -5,9 +5,10 @@ import * as fromModels from 'src/app/models';
 import { Observable } from 'rxjs';
 
 import { MappingHandler } from 'src/app/services/mapping.service'
-import { SageIntacctApiSchema, SagePeopleApiSchema } from 'src/app/services/properties.service';
+import { SageIntacctApiSchemaService, SagePeopleApiSchemaService } from 'src/app/services/properties.service';
 import { PropertyListComponent } from '../property-list/property-list.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'amt-mapping',
@@ -63,15 +64,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   `,
   styleUrls: ['./mapping.component.less']
 })
-export class MappingComponent implements OnInit, OnDestroy {
+export class MappingComponent implements OnInit {
 
   // Fields from Sage People
-  fromData$: Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>;
   fromProperties: fromModels.MappingListData = {};
   fromCategories: fromModels.MappingListCategories = {};
 
   // Fields from Sage Intacct
-  toData$: Observable<[fromModels.MappingListData, fromModels.MappingListCategories]>;
   toProperties: fromModels.MappingListData = {};
   toCategories: fromModels.MappingListCategories = {};
 
@@ -88,40 +87,50 @@ export class MappingComponent implements OnInit, OnDestroy {
   // The title of the file
   fileTitle = 'Mapping File Title';
 
+  data$: Observable<fromModels.StorageDataFormat>;
+  planId: string;
+
+  loading = false;
+  saving = false;
+
   constructor(
-    private sagePeopleService: SagePeopleApiSchema,
-    private sageIntacctService: SageIntacctApiSchema,
     private mappingService: MappingHandler,
+    private storage: StorageService,
     public element: ElementRef,
     public router: Router,
     public route: ActivatedRoute,
   ) { }
 
+
   ngOnInit() {
+
     // TODO: get the current path and add logic for handling how to load in variables
-    console.log(this.route, this.router);
-
     if (this.router.url.includes('new')) {
-      // Load data from services
-      this.fromData$ = this.sagePeopleService.buildStructure();
-      this.toData$ = this.sageIntacctService.buildStructure();
-
-      // Subscribe
-      this.fromData$.subscribe(([properties, categories])=>{
-        this.fromProperties = properties;
-        this.fromCategories = categories;
-      });
-
-      this.toData$.subscribe(([properties, categories])=>{
-        this.toProperties = properties;
-        this.toCategories = categories;
-      });
+      this.data$ = this.storage.loadDefaultData();
     } else {
-      this.route.paramMap.subscribe(map => {
+      this.data$ = this.route.paramMap.pipe((map) => {
         const planID = map['params'].id;
-         console.log(planID);
+        return this.storage.loadData(planID);
       });
     }
+
+    const subscription = this.data$.subscribe(initialState => {
+      this.fileTitle = initialState.name;
+      this.planId = initialState.id;
+
+      this.toProperties = initialState.data.to.properties;
+      this.toCategories = initialState.data.to.categories;
+
+      this.fromProperties = initialState.data.from.properties;
+      this.fromCategories = initialState.data.from.categories;
+
+      this.relationships = initialState.data.mapping;
+
+      this.loading = false;
+
+      // Only subscribe once
+      subscription.unsubscribe();
+    });
   }
 
   // Handles clicking on 'from' properties
@@ -292,10 +301,6 @@ export class MappingComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(){
-    // TODO: Close subscriptions
-  }
-
   // Clears all relationships
   clearRelationships() {
     this.relationships = [];
@@ -317,18 +322,37 @@ export class MappingComponent implements OnInit, OnDestroy {
 
   // Saves the mapping data to the backend
   saveMappingData() {
-    console.log(JSON.stringify(
-      {
-        "mapping": this.relationships,
-        "from": {
-          "properties": this.fromProperties,
-          "categories": this.fromCategories
-        },
-        "to": {
-          "properties": this.toProperties,
-          "categories": this.toCategories
+    this.saving = true;
+    const createJsonSub = this.mappingService.createJsonString({
+      from: this.fromProperties,
+      to: this.toProperties,
+      relationships: this.relationships
+    }).subscribe((output:string)=>{
+      const saveDataSub = this.storage.saveData(
+        this.planId,
+        {
+          name: this.fileTitle,
+          id: this.planId,
+          data:{
+            from: {
+              properties: this.fromProperties,
+              categories: this.fromCategories,
+            },
+            to: {
+              properties: this.toProperties,
+              categories: this.toCategories,
+            },
+            mapping: this.relationships,
+            output
+          }
         }
-      }
-    ));
+      ).subscribe((status)=>{
+        this.saving = false;
+
+        console.log(status);
+        saveDataSub.unsubscribe();
+        createJsonSub.unsubscribe();
+      });
+    });
   }
 }

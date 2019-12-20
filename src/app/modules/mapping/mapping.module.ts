@@ -9,7 +9,7 @@ import { PropertyListItemComponent } from './components/property-list-item/prope
 import { ArrowsComponent } from './components/arrows/arrows.component';
 import { MappingComponent } from './components/mapping/mapping.component';
 import { AddRelationshipComponent, RemoveRelationshipComponent } from './components/change-relationship/change-relationship.component';
-import { SageIntacctApiSchema, SagePeopleApiSchema } from 'src/app/services/properties.service';
+import { SageIntacctApiSchemaService, SagePeopleApiSchemaService } from 'src/app/services/properties.service';
 import { MappingHandler } from 'src/app/services/mapping.service'
 import { NewFieldComponent } from './components/new-field/new-field.component';
 
@@ -30,8 +30,8 @@ import { NewFieldComponent } from './components/new-field/new-field.component';
     FormsModule
   ],
   providers: [
-    SageIntacctApiSchema,
-    SagePeopleApiSchema,
+    SageIntacctApiSchemaService,
+    SagePeopleApiSchemaService,
     MappingHandler
   ]
 })
